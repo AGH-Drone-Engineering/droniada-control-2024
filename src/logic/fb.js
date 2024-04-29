@@ -4,12 +4,13 @@ import { getStorage } from 'firebase/storage';
 import { getAuth } from 'firebase/auth';
 
 const firebaseConfig = {
-  apiKey: 'AIzaSyB0wMsXKjNJl2pjUxAIgOvA8fbnHT-qRhc',
-  authDomain: 'dorniada-2.firebaseapp.com',
-  projectId: 'dorniada-2',
-  storageBucket: 'dorniada-2.appspot.com',
-  messagingSenderId: '1093677567041',
-  appId: '1:1093677567041:web:41ce0bdae29b68a8d6cac0'
+  apiKey: 'AIzaSyB6yFCS0yFe7qc70U_orhuhmvWzkkMj7os',
+  authDomain: 'droniada-2024.firebaseapp.com',
+  projectId: 'droniada-2024',
+  storageBucket: 'droniada-2024.appspot.com',
+  messagingSenderId: '122511349737',
+  appId: '1:122511349737:web:157215e8014e499bd91d78',
+  measurementId: 'G-KDLRRZ5JDT'
 };
 
 export const app = initializeApp(firebaseConfig);

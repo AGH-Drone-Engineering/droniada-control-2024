@@ -6,14 +6,14 @@ export default function Header() {
       <div className="links">
         <Link to="/intruder" reloadDocument>Intruz</Link>
         <Link to="/pipeline" reloadDocument>Rurociąg</Link>
-        <Link to="/tree" reloadDocument>Drzewo życia</Link>
+        <Link to="/mines" reloadDocument>Kopalnie marsjańskie</Link>
         <Link to="/demo" reloadDocument>Demo systemu</Link>
         <Link to="/admin" reloadDocument>Admin</Link>
 
       </div>
       <div className="head1">
         <h1>
-          Droniada 2023
+          Droniada 2024
         </h1>
         <img src={process.env.PUBLIC_URL + '/agh-de-logo.png'} alt='agh-de-logo' />
       </div>

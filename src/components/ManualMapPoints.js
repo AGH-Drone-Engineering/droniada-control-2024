@@ -68,7 +68,7 @@ export default function ManualMapPoints() {
   return (
     <div className='mannual-wrapper'>
       <div className='mannual-mapper'>
-        <MapContainer center={position} zoom={17} style={{ height: '100%' }}>
+        <MapContainer center={position} zoom={20} style={{ height: '100%' }}>
           <TileLayer
             url='https://api.mapbox.com/v4/mapbox.satellite/{z}/{x}/{y}@2x.jpg?access_token=pk.eyJ1IjoiYWdoLWRlIiwiYSI6ImNsZWxvajl3dDBtd3Qzd29kcnY4YjFxbmMifQ.xUC7tSyVs0LcHrdAf3XNgA'
             attribution='Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors'
@@ -86,7 +86,7 @@ export default function ManualMapPoints() {
         <label htmlFor="pointTypeSelect">Konkurencja:</label>
         <select id="pointTypeSelect" onChange={onChangeDb}>
           <option value="intruder-points">Intruz</option>
-          <option value="tree-points">Drzewo życia</option>
+          <option value="mines-points">Kopalnie marsjańskie</option>
           <option value="pipeline-points">Rurociąg</option>
         </select>
 

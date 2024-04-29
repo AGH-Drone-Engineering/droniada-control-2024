@@ -3,7 +3,7 @@ import pdfFonts from 'pdfmake/build/vfs_fonts';
 import { mapType, getType } from 'logic/TypeLogic';
 import { demoImg } from 'logic/demoImg';
 
-const mapping = { 'intruder-points': 'intruz', 'pipeline-points': 'rurociąg', 'tree-points': 'drzewo życia' };
+const mapping = { 'intruder-points': 'intruz', 'pipeline-points': 'rurociąg', 'mines-points': 'kopalnie marsjańskie' };
 
 const isValidBase64Jpeg = (str) => {
   if (!str) return false;
@@ -75,25 +75,25 @@ export default function generatePdf(dbName, data, dronePoints) {
         dontBreakRows: true,
         fillColor: '#ffffff',
         layout: {
-          hLineWidth: function(i, node) {
+          hLineWidth: function (i, node) {
             return (i === 0 || i === node.table.body.length) ? 0 : 1;
           },
-          vLineWidth: function(i, node) {
+          vLineWidth: function (i, node) {
             return 0;
           },
-          hLineColor: function(i, node) {
+          hLineColor: function (i, node) {
             return '#aaaaaa';
           },
-          paddingLeft: function(i, node) {
+          paddingLeft: function (i, node) {
             return 5;
           },
-          paddingRight: function(i, node) {
+          paddingRight: function (i, node) {
             return 0;
           },
-          paddingTop: function(i, node) {
+          paddingTop: function (i, node) {
             return 5;
           },
-          paddingBottom: function(i, node) {
+          paddingBottom: function (i, node) {
             return 5;
           }
         }
@@ -124,7 +124,7 @@ export default function generatePdf(dbName, data, dronePoints) {
         style: 'header3'
       },
       ...dronePoints.map((item) => ({
-        text: `Szerokość: ${item.location._lat}, Długość: ${item.location._long}, Wysokość: ${item.altitude}m, Czas: ${'timestamp' in item ? (item.timestamp.toDate().toLocaleTimeString('pl-PL')) : 'bd'}`
+        text: `Szerokość: ${item.location._lat}, Długość: ${item.location._long}, Wysokość: ${item.altitude}m, Status: ${item.status || 'brak'} Czas: ${'timestamp' in item ? (item.timestamp.toDate().toLocaleTimeString('pl-PL')) : 'bd'}`
       }))
     ],
     styles: {
@@ -166,5 +166,5 @@ export default function generatePdf(dbName, data, dronePoints) {
     }
   };
   pdfMake.vfs = pdfFonts.pdfMake.vfs;
-  pdfMake.createPdf(docDefinition).download('Raport z misji ' + mapping[dbName]);
+  pdfMake.createPdf(docDefinition).download('Raport z misji ' + mapping[dbName] + ' - AGH Drone Engineering');
 };

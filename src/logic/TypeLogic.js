@@ -73,23 +73,9 @@ const intruderIcon = L.icon({
   popupAnchor: [0, 0]
 });
 
-// Tree of life
-const brownIcon = L.icon({
-  iconUrl: process.env.PUBLIC_URL + '/brown.png',
-  iconSize: [20, 20],
-  iconAnchor: [10, 10],
-  popupAnchor: [0, 0]
-});
-
-const goldIcon = L.icon({
-  iconUrl: process.env.PUBLIC_URL + '/gold.png',
-  iconSize: [20, 20],
-  iconAnchor: [10, 10],
-  popupAnchor: [0, 0]
-});
-
-const whiteIcon = L.icon({
-  iconUrl: process.env.PUBLIC_URL + '/white.png',
+// Mines
+const blueIcon = L.icon({
+  iconUrl: process.env.PUBLIC_URL + '/blue.png',
   iconSize: [20, 20],
   iconAnchor: [10, 10],
   popupAnchor: [0, 0]
@@ -102,6 +88,27 @@ const beigeIcon = L.icon({
   popupAnchor: [0, 0]
 });
 
+const violetIcon = L.icon({
+  iconUrl: process.env.PUBLIC_URL + '/violet.png',
+  iconSize: [20, 20],
+  iconAnchor: [10, 10],
+  popupAnchor: [0, 0]
+});
+
+const greenIcon = L.icon({
+  iconUrl: process.env.PUBLIC_URL + '/green.png',
+  iconSize: [20, 20],
+  iconAnchor: [10, 10],
+  popupAnchor: [0, 0]
+});
+
+const roverIcon = L.icon({
+  iconUrl: process.env.PUBLIC_URL + '/rover.png',
+  iconSize: [30, 30],
+  iconAnchor: [15, 15],
+  popupAnchor: [0, 0]
+});
+
 // Other icons
 const animatedDroneIcon = L.icon({
   iconUrl: process.env.PUBLIC_URL + '/drone.gif',
@@ -110,25 +117,22 @@ const animatedDroneIcon = L.icon({
   popupAnchor: [0, 0]
 });
 
-const dogIcon = L.icon({
-  iconUrl: process.env.PUBLIC_URL + '/robot.png',
-  iconSize: [30, 40],
-  iconAnchor: [25, 25],
-  popupAnchor: [0, 0]
-});
-
 const nameMap = {
   white: 'zdrowe',
   brown: 'podatne',
   gold: 'parch',
-  beige: 'mączniak',
   bag: 'torba',
   qr: 'QR',
   generic: 'Inne',
   cuttedWire: 'Przecięty kabel',
   pipelineLeak: 'Awaria rury',
   helmetOff: 'Zdjęty kask',
-  barrel: 'Beczka'
+  barrel: 'Beczka',
+  violet: 'Fioletowe',
+  blue: 'Niebieskie',
+  beige: 'Ceglane',
+  green: 'Zielone',
+  rover: 'Lądownik'
 };
 const icons = {
   generic: crosshairIcon,
@@ -142,10 +146,12 @@ const icons = {
   bag: bagIcon,
   bomb: bagIcon,
   intruder: intruderIcon,
-  brown: brownIcon,
-  gold: goldIcon,
   beige: beigeIcon,
-  white: whiteIcon
+  white: beigeIcon,
+  blue: blueIcon,
+  violet: violetIcon,
+  rover: roverIcon,
+  green: greenIcon
 };
 
 function getType(point) {
@@ -161,7 +167,7 @@ function mapType(type) {
   return out.charAt(0).toUpperCase() + out.slice(1);
 }
 
-export { getType, getIcon, mapType, nameMap, icons, animatedDroneIcon, dogIcon };
+export { getType, getIcon, mapType, nameMap, icons, animatedDroneIcon };
 
 // For debugging in Chrome dev tools:
 window.getType = getType;

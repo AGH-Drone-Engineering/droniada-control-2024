@@ -5,7 +5,8 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import Root from 'modules/root';
 import IntruderScreen from 'modules/intruder';
 import PipelineScreen from 'modules/pipeline';
-import TreeScreen from 'modules/tree';
+
+import Mines from 'modules/kopalnie';
 import AdminScreen from 'modules/admin';
 import DemoScreen from 'modules/demo';
 
@@ -25,8 +26,8 @@ const router = createBrowserRouter([
     element: <PipelineScreen />
   },
   {
-    path: '/tree',
-    element: <TreeScreen />
+    path: '/mines',
+    element: <Mines/>
   },
   {
     path: '/admin',

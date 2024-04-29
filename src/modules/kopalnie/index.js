@@ -6,26 +6,24 @@ import React, { useState } from 'react';
 import { FilterContext } from 'logic/FilterContext';
 import Stats from 'components/Stats';
 import MissionTimePopup from 'components/MissionTimePopup';
-import RoboDogMarker from 'components/RoboDogMarker';
 
-const screenDatabase = 'tree-points';
+const screenDatabase = 'mines-points';
 
-export default function IntruderScreen() {
+export default function MinesScreen() {
   const [position] = useInitalLocation(screenDatabase);
   const [filter, setFilter] = useState({});
 
   return (
     <div className='App'>
       <div id='header'>
-        <Header appName='Drzewo życia' />
+        <Header appName='Kopalnie marsjańskie' />
         <Stats db={screenDatabase} />
       </div>
       <MissionTimePopup/>
       <FilterContext.Provider value={{ filter, setFilter }}>
         <main>
           <div className='map-wrapper'>
-            <MapRenderer position={position} db={screenDatabase} >
-              <RoboDogMarker/>
+            <MapRenderer position={position} db={screenDatabase} zoom={20} >
             </MapRenderer>
           </div>
           <div className='right-list'>
