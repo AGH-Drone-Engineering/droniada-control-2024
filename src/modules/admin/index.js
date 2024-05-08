@@ -3,6 +3,8 @@ import { useSignInWithEmailAndPassword, useSignOut, useAuthState } from 'react-f
 import { auth } from 'logic/fb';
 import { useUserIsAdmin } from 'logic/auth';
 import NukeControl from 'modules/pipeline/components/NukeControl';
+import SuperPanel from 'components/SuperPanel';
+import { TabList, Tab, TabPanel, Tabs } from 'react-tabs';
 
 function CurrentUser() {
   const [user, userLoading, userError] = useAuthState(auth);
@@ -65,22 +67,22 @@ function SignIn() {
           signInWithEmailAndPassword(email, password);
         }}
       >
-        <label htmlFor="email">Email: <br/></label>
+        <label htmlFor="email">Email: <br /></label>
         <input
           type="email"
           id="email"
           value={email}
           onChange={e => setEmail(e.target.value)}
         />
-        <br/>
-        <label htmlFor="password">Hasło: <br/></label>
+        <br />
+        <label htmlFor="password">Hasło: <br /></label>
         <input
           type="password"
           id="password"
           value={password}
           onChange={e => setPassword(e.target.value)}
         />
-        <br/><br/>
+        <br /><br />
         <button type="submit">Zaloguj się</button>
       </form>
       {error && <p>Error signing in: {error.message}</p>}
@@ -94,7 +96,7 @@ export default function AdminScreen() {
 
   return (
     <>
-      {user ? <h1>Super Secret {isAdmin && <>Admin</> } Control Panel</h1> : <h1>Very normal login form to very normal panel</h1> }
+      {user ? <h1>Super Secret {isAdmin && <>Admin</>} Control Panel</h1> : <h1>Very normal login form to very normal panel</h1>}
       {loading && <p>Loading user...</p>}
       {error && <p>Error loading user: {error.message}</p>}
       {!loading && !error && (
@@ -104,9 +106,19 @@ export default function AdminScreen() {
       )}
       {isAdminLoading && <p>Loading admin status...</p>}
       {isAdmin &&
-        <>
-          <NukeControl/>
-        </>
+        <Tabs>
+          <TabList>
+            <Tab>Generic view</Tab>
+            <Tab>Personalized experience for Inspekcja</Tab>
+          </TabList>
+          <TabPanel>
+            <NukeControl />
+
+          </TabPanel>
+          <TabPanel>
+            <SuperPanel />
+          </TabPanel>
+        </Tabs>
       }
     </>
   );

@@ -1,20 +1,23 @@
 import { Marker, Popup } from 'react-leaflet';
 import useMapPoints from 'logic/useMapPoints';
-import { useContext } from 'react';
+import { useContext, useRef } from 'react';
 import { FilterContext } from 'logic/FilterContext';
 import { getType, getIcon } from 'logic/TypeLogic';
 import { removePointFromMap } from 'logic/FbPointLogic';
 import { useUserIsAdmin } from 'logic/auth';
 
+
+
 export default function Points({ db }) {
   const points = useMapPoints(db);
   const { filter } = useContext(FilterContext);
   const [admin] = useUserIsAdmin();
+  const refs = []
 
   const handleRemoveMarker = (point) => {
     removePointFromMap(db, point.id);
   };
-
+  let i = -1;
   return (
     <>
       {points.map((point) => {
@@ -27,6 +30,8 @@ export default function Points({ db }) {
           date = '📆' + rawDate.toLocaleDateString('pl-PL');
           time = '⌚' + rawDate.toLocaleTimeString('pl-PL');
         }
+        i++;
+
         return (
           <>
             <Marker
@@ -37,11 +42,11 @@ export default function Points({ db }) {
             >
               <Popup key={point.id}>
                 <div className='marker-popup'>
-                  <img src={'data:image/jpeg;base64,/9j/' + point.img} className="icon-img" alt='Capture from drone'></img>
+                  {point.img && <img src={'data:image/jpeg;base64,/9j/' + point.img} className="icon-img" alt='Capture from drone'></img>}
                   <p>{point.name}</p>
-                  <p> {date} <br/> {time} </p>
+                  <p> {date} <br /> {time} </p>
                   {admin &&
-                  <a onClick={() => handleRemoveMarker(point)}>Usuń punkt</a> }
+                    <a onClick={() => handleRemoveMarker(point)}>Usuń punkt</a>}
                 </div>
               </Popup>
             </Marker>

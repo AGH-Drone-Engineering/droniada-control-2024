@@ -9,6 +9,7 @@ import PipelineScreen from 'modules/pipeline';
 import Mines from 'modules/kopalnie';
 import AdminScreen from 'modules/admin';
 import DemoScreen from 'modules/demo';
+import InspectionScreen from 'modules/inspection';
 
 import './index.css';
 
@@ -27,11 +28,15 @@ const router = createBrowserRouter([
   },
   {
     path: '/mines',
-    element: <Mines/>
+    element: <Mines />
   },
   {
     path: '/admin',
     element: <AdminScreen />
+  },
+  {
+    path: '/inspection',
+    element: <InspectionScreen />
   },
   {
     path: '/demo',

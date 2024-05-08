@@ -4,8 +4,7 @@ export default function Header() {
   return (
     <header>
       <div className="links">
-        <Link to="/intruder" reloadDocument>Intruz</Link>
-        <Link to="/pipeline" reloadDocument>Rurociąg</Link>
+        <Link to="/inspection" reloadDocument>Inspekcja</Link>
         <Link to="/mines" reloadDocument>Kopalnie marsjańskie</Link>
         <Link to="/demo" reloadDocument>Demo systemu</Link>
         <Link to="/admin" reloadDocument>Admin</Link>

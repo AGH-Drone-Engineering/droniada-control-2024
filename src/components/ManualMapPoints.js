@@ -8,7 +8,7 @@ import { addPointToMap } from 'logic/FbPointLogic';
 import MapCenter from 'components/MapCenter';
 
 function toIsoString(date) {
-  const pad = function(num) {
+  const pad = function (num) {
     return (num < 10 ? '0' : '') + num;
   };
 
@@ -76,7 +76,7 @@ export default function ManualMapPoints() {
           <Points db={screenDatabase} key={key + '_points'}></Points>
           <Shapes dbName={screenDatabase} key={key + '_shapes'}></Shapes>
           <Marker position={clickedPos}></Marker>
-          <MapCenter position={position} alwaysUpdate={true}/>
+          <MapCenter position={position} alwaysUpdate={true} />
           <MapEvents />
         </MapContainer>
       </div>
@@ -85,9 +85,11 @@ export default function ManualMapPoints() {
 
         <label htmlFor="pointTypeSelect">Konkurencja:</label>
         <select id="pointTypeSelect" onChange={onChangeDb}>
-          <option value="intruder-points">Intruz</option>
+          <option value="inspection-0-points">Inspekcja lot zerowy</option>
+          <option value="inspection-1-points">Inspekcja (1) lot</option>
+          <option value="inspection-2-points">Inspekcja (2) lot</option>
+          <option value="inspection-3-points">Inspekcja (3) lot</option>
           <option value="mines-points">Kopalnie marsjańskie</option>
-          <option value="pipeline-points">Rurociąg</option>
         </select>
 
         <div className="form-row">
