@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { db } from 'logic/fb'
 import { doc, updateDoc } from 'firebase/firestore'
 import useFixTeam from 'logic/useFixTeam'
-import ManualMapPoints from 'components/ManualMapPoints'
+import BetterManualMapPoints from 'components/BetterManualMapPoints'
 import useMapPoints from 'logic/useMapPoints'
 import HeaderMarker from 'components/headerMarker'
 import useDronePath from 'logic/DronePath'
@@ -16,8 +16,8 @@ function initialTime() {
 }
 
 export default function NukeControl() {
-  const [pdfDb, setPdfDb] = useState('mines-points')
-  const [pilot, setPilot] = useState('Banyś Szymon')
+  const [pdfDb, setPdfDb] = useState('inspection-0-points')
+  const [pilot, setPilot] = useState('Kokot Daria')
   const [datetime, setDatetime] = useState(initialTime)
   const [pilotPhone, setPilotPhone] = useState('')
   const [flightno, setFlightno] = useState(0)
@@ -27,6 +27,9 @@ export default function NukeControl() {
   const [flightDuration, setFlightDuration] = useState('')
   const [, dronePoints] = useDronePath()
   const points = useMapPoints(pdfDb)
+  useEffect(() => {
+    setPdfDb(`inspection-${flightno}-points`);
+  }, [flightno]);
 
   return (
 
@@ -73,7 +76,7 @@ export default function NukeControl() {
 
         <button
           className="super-raport-btn"
-          onClick={() => generatePdf({ pilot, datetime, pilotPhone, kp: kpIndex, batt: batteryBefore, battAfter: batteryAfter, duration: flightDuration }, flightno)}
+          onClick={() => generatePdf(points, { pilot, datetime, pilotPhone, kp: kpIndex, batt: batteryBefore, battAfter: batteryAfter, duration: flightDuration }, flightno)}
         >
           GENERUJ
         </button>
@@ -82,7 +85,7 @@ export default function NukeControl() {
         <h2>Manualne dodawanie punktów</h2>
         <hr />
         <p>W tym miejscu możesz też dodać ręcznie punkty do bazy</p>
-        <ManualMapPoints />
+        <BetterManualMapPoints flightNo={flightno} />
       </div>
     </div>
   )

@@ -4,8 +4,11 @@ import { mapType, getType } from 'logic/TypeLogic';
 import { demoImg } from 'logic/demoImg';
 import header from 'logic/pdf_modules/header';
 import footer from './pdf_modules/footer';
+import arucos from './pdf_modules/arucos';
 
 const mapping = { 'inspection-points': 'inspekcja', 'mines-points': 'kopalnie marsjańskie' };
+
+let images = { demo: `data:image/jpeg;base64,/9j/${demoImg}` };
 
 const isValidBase64Jpeg = (str) => {
   if (!str) return false;
@@ -22,6 +25,32 @@ const isValidBase64Jpeg = (str) => {
   }
 };
 
+const v4 = () => {
+  Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+}
+
+function addImage(data) {
+  //Fetch image at 'data' and check it returns 404
+  if (data.img) {
+    return data.img;
+  }
+  let link = data.imgSrc
+  try {
+    let req = new XMLHttpRequest();
+    req.open('GET', link, false);
+    req.send();
+    if (req.status === 404) {
+      return "demo";
+    }
+  }
+  catch (e) {
+    return "demo";
+  }
+  let id = v4() + "-" + v4() + "-" + v4() + "-" + v4();
+  images[id] = link;
+  return id;
+}
+
 function fbTimeToTime(point) {
   if (!('timestamp' in point)) {
     return '[brak znacznika czasu]';
@@ -32,7 +61,7 @@ function fbTimeToTime(point) {
   return '' + timeString;
 }
 
-export default function generatePdf(headerInfo, day) {
+export default function generatePdf(points, headerInfo, day) {
   const docDefinition = {
     content: [
       {
@@ -41,7 +70,12 @@ export default function generatePdf(headerInfo, day) {
       },
       header(headerInfo.pilot, headerInfo.datetime, headerInfo.pilotPhone, day, headerInfo.batt, headerInfo.duration, headerInfo.kp, headerInfo.battAfter),
       {
-        text: '//TODO tu będą punkty',
+        text: ' ',
+        style: 'header3'
+      },
+      arucos(points, addImage),
+      {
+        text: ' ',
         style: 'header3'
       },
       footer
@@ -75,6 +109,13 @@ export default function generatePdf(headerInfo, day) {
         fillColor: "lightblue",
         alignment: 'center'
       },
+      header1b: {
+        fontSize: 10,
+        bold: true,
+        margin: [0, 0, 0, 0],
+        fillColor: "lightblue",
+        alignment: 'center'
+      },
       center: {
         alignment: 'center'
       },
@@ -89,7 +130,8 @@ export default function generatePdf(headerInfo, day) {
         color: 'blue',
         alignment: 'center'
       }
-    }
+    },
+    images
   };
   pdfMake.vfs = pdfFonts.pdfMake.vfs;
   //pdfMake.createPdf(docDefinition).download('Raport z misji Inspekcja - AGH Drone Engineering');

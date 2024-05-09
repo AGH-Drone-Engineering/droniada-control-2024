@@ -363,6 +363,35 @@ h1 {
   font-size: 17px;
 }
 
+.modal-dialog
+{
+  /*Center dialog absolutly on screen*/
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #333;
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  color: white;
+  text-align: justify;
+  width: 400px;
+  height: 150px;
+  z-index: 999999;
+}
+
+.modal-dialog button
+{
+  margin-left: 165px;
+  width: 70px;
+  height: 30px;
+  border: 0;
+  background-color: #119911;
+  cursor: pointer;
+}
+
+
 .nuke-control .raport-btn
 {
   background-color: #1199EE;

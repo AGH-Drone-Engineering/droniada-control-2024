@@ -5,22 +5,20 @@ function calcDay() {
   const now = new Date();
   const diff = now - startDay;
   const day = Math.floor(diff / (1000 * 60 * 60 * 24));
-  console.log(now, diff, diff / (1000 * 60 * 60 * 24));
   return day;
 }
 export default function InspectionDay(props) {
   const [day, setDay] = useState(calcDay());
   const [flyChoosen, setFlyChoosen] = useState(false);
-  const cantAuto = <><span class="cheat-info">Jesteśmy jeszcze przed droniadą, nie można automatycznie określić dnia inspekcji.</span></>
-  const canAuto = <span class="cheat-info">Jesteśmy już w trakcie droniady, DZIEŃ INSPEKCJI: {calcDay()}</span>
+  const cantAuto = <><span className="cheat-info">Jesteśmy jeszcze przed droniadą, nie można automatycznie określić dnia inspekcji.</span></>
+  const canAuto = <span className="cheat-info">Jesteśmy już w trakcie droniady, DZIEŃ INSPEKCJI: {calcDay()}</span>
   const ambigFriday = <>{!flyChoosen && <>
-    <span class="cheat-info">Jest piątek wybierz lot: </span>
+    <span className="cheat-info">Jest piątek wybierz lot: </span>
     <button onClick={() => setDay(2) + setFlyChoosen(true)}>Lot (2)</button>
     <button className="short-input" style={{ marginLeft: "20px" }} onClick={() => setDay(3) + setFlyChoosen(true)}>Lot (3)</button></>}
   </>
   let info = cantAuto;
   let calced = calcDay();
-  console.log(calced);
   if (calced < 0) {
     info = cantAuto;
   }
@@ -33,7 +31,11 @@ export default function InspectionDay(props) {
   }
 
   useEffect(() => {
-    props.daySetter(day);
+    let dayy = day
+    if (dayy < 0) {
+      dayy = 0;
+    }
+    props.daySetter(dayy);
   }, [day]);
 
   return (
