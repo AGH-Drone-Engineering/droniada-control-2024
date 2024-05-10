@@ -32,6 +32,14 @@ export default function (points, addImage) {
             `${++i}`, item.present ? "Tak" : "Nie", item.type === 'worker' ? "Tak" : "Nie", item.present ? `Lat: ${item.location.latitude.toFixed(7)},\n Lon: ${item.location.longitude.toFixed(7)}` : '[pracownik nieobecny]', item.changedLoc ? "Tak" : "Nie", { image: addImage(item), height: 100, width: 150 }, `+/-`]))
         ]
       }
+    },
+    {
+      text: `Pracownicy przestrzegający BHP podczas tego nalotu: ${dronePoints.filter(point => point.type === 'worker').filter(point => point.present).length} `,
+      style: "header3b"
+    },
+    {
+      text: `Pracownicy nie przestrzegający BHP podczas tego nalotu: ${dronePoints.filter(point => point.type === 'workerNoHS').filter(point => point.present).length}`,
+      style: "header3b"
     }
   ]
 }
