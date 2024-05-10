@@ -26,56 +26,65 @@ export default function NukeControl() {
   }, [time])
 
   return (
-    <div className="nuke-control">
-      <div>
-        <h2>Raport PDF z misji:</h2>
-        <hr />
-        <label htmlFor="databaseToPdfSelect">
-          Wybierz bazę danych z której generowany będzie raport PDF: <br />
-        </label>
-        <select
-          id="databaseToPdfSelect"
-          onChange={(e) => setPdfDb(e.target.value)}
-          style={{ width: '300px' }}
-        >
-          <option value={'intruder-points'}>Intruz</option>
-          <option value={'pipeline-points'}>Rurociąg</option>
-          <option value={'mines-points'}>Kopalnie marsjańskie</option>
-        </select>{' '}
-        <br />
-        <br />
-        <button
-          className="raport-btn"
-          onClick={() => generatePdf(pdfDb, points, dronePoints)}
-        >
-          Pobierz raport w formacie PDF
-        </button>
-        <h2>
-          <HeaderMarker condition={time > 0} /> Czas wykonania misji:
-        </h2>
-        <hr />
-        <label htmlFor="taskTime">
-          Wprowadź czas wykonania misji w minutach:{' '}
-        </label>
-        <input
-          type="number"
-          id="taskTime"
-          style={{ width: 50, textAlign: 'right' }}
-          value={taskTime}
-          onChange={(e) => setTaskTime(e.currentTarget.value)}
-        ></input>
-        m<br />
-        <button className="raport-btn" onClick={setupTaskTime}>
-          Ustaw czas misji
-        </button>
-        <br />
-        <br />
-        <br />
-        <h2>Manualne dodawanie punktów</h2>
-        <hr />
-        <p>W tym miejscu możesz też dodać ręcznie punkty do bazy</p>
-        <ManualMapPoints />
+    <>
+      <div className="nuke-control">
+        <div>
+          <h2>Raport PDF z misji:</h2>
+          <hr />
+          <label htmlFor="databaseToPdfSelect">
+            Wybierz bazę danych z której generowany będzie raport PDF: <br />
+          </label>
+          <select
+            id="databaseToPdfSelect"
+            onChange={(e) => setPdfDb(e.target.value)}
+            style={{ width: '300px' }}
+          >
+            <option value={'intruder-points'}>Intruz</option>
+            <option value={'pipeline-points'}>Rurociąg</option>
+            <option value={'mines-points'}>Kopalnie marsjańskie</option>
+          </select>{' '}
+          <br />
+          <br />
+          <button
+            className="raport-btn"
+            onClick={() => generatePdf(pdfDb, points, dronePoints)}
+          >
+            Pobierz raport w formacie PDF
+          </button>
+          <h2>
+            <HeaderMarker condition={time > 0} /> Czas wykonania misji:
+          </h2>
+          <hr />
+          <label htmlFor="taskTime">
+            Wprowadź czas wykonania misji w minutach:{' '}
+          </label>
+          <input
+            type="number"
+            id="taskTime"
+            style={{ width: 50, textAlign: 'right' }}
+            value={taskTime}
+            onChange={(e) => setTaskTime(e.currentTarget.value)}
+          ></input>
+          m<br />
+          <button className="raport-btn" onClick={setupTaskTime}>
+            Ustaw czas misji
+          </button>
+          <br />
+          <br />
+          <br />
+          <h2>Manualne dodawanie punktów</h2>
+          <hr />
+          <p>W tym miejscu możesz też dodać ręcznie punkty do bazy</p>
+          <ManualMapPoints />
+          <footer>
+            <div>Copyrights for AGH Drone Engineering. Made with ❤️ by <a href="https://www.linkedin.com/in/antoni-wo%C5%BAniak-a20995283/" target="_blank">@atomwoz</a></div>
+            <div style={{ width: '10px', height: '50px' }}></div>
+          </footer>
+        </div>
+
       </div>
-    </div>
+
+    </>
+
   )
 }

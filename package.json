@@ -6,6 +6,7 @@
   "dependencies": {
     "@react-three/drei": "^9.57.0",
     "@react-three/fiber": "^8.11.5",
+    "canvas": "^2.11.2",
     "exif-js": "^2.3.0",
     "firebase": "^9.17.1",
     "leaflet": "^1.9.3",

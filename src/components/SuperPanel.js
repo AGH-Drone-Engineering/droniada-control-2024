@@ -57,7 +57,6 @@ export default function NukeControl() {
     if (templateData.duration) {
       setFlightDuration(templateData.duration)
     }
-    console.log(templateData)
 
   }, [templateData])
 
@@ -104,6 +103,7 @@ export default function NukeControl() {
           </label>
         </form>
 
+
         <button
           className="super-raport-btn"
           onClick={() => generatePdf(points, { pilot, datetime, pilotPhone, kp: kpIndex, batt: batteryBefore, battAfter: batteryAfter, duration: flightDuration }, flightno)}
@@ -112,7 +112,7 @@ export default function NukeControl() {
         </button>
         <button
           className="save-template-btn"
-          onClick={() => saveTemplate({ pilot, datetime, pilotPhone, kp: kpIndex, batt: batteryBefore, battAfter: batteryAfter, duration: flightDuration }).then(console.log("Dodano"))}
+          onClick={() => saveTemplate({ pilot, datetime, pilotPhone, kp: kpIndex, batt: batteryBefore, battAfter: batteryAfter, duration: flightDuration }).then()}
         >
           Zapisz formularz jako AUTOMATYCZNIE UZUPEŁNIANIE
         </button>

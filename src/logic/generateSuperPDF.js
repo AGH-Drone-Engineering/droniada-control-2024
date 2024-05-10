@@ -5,8 +5,9 @@ import { demoImg } from 'logic/demoImg';
 import header from 'logic/pdf_modules/header';
 import footer from './pdf_modules/footer';
 import arucos from './pdf_modules/arucos';
-
-const mapping = { 'inspection-points': 'inspekcja', 'mines-points': 'kopalnie marsjańskie' };
+import supersituation from './pdf_modules/supersituation';
+import staticchanges from './pdf_modules/staticchanges';
+import workers from './pdf_modules/workers';
 
 let images = { demo: `data:image/jpeg;base64,/9j/${demoImg}` };
 
@@ -33,6 +34,9 @@ function addImage(data) {
   //Fetch image at 'data' and check it returns 404
   if (data.img) {
     return data.img;
+  }
+  else {
+    return `data:image/jpeg;base64,/9j/${demoImg}`;
   }
   let link = data.imgSrc
   try {
@@ -69,6 +73,21 @@ export default function generatePdf(points, headerInfo, day) {
         style: 'header'
       },
       header(headerInfo.pilot, headerInfo.datetime, headerInfo.pilotPhone, day, headerInfo.batt, headerInfo.duration, headerInfo.kp, headerInfo.battAfter),
+      {
+        text: ' ',
+        style: 'header3'
+      },
+      workers(points, addImage),
+      {
+        text: ' ',
+        style: 'header3'
+      },
+      staticchanges(points, addImage),
+      {
+        text: ' ',
+        style: 'header3'
+      },
+      supersituation(points, addImage),
       {
         text: ' ',
         style: 'header3'

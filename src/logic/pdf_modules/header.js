@@ -19,7 +19,7 @@ export default function (pilot, datatime, phone, mission, batt, duration, kp, ba
     style: "header3"
   },
   {
-    text: "Podstawowe informacje o wykonanej misji",
+    text: "1. Podstawowe informacje o wykonanej misji",
     style: "header3"
   },
   {
@@ -33,7 +33,7 @@ export default function (pilot, datatime, phone, mission, batt, duration, kp, ba
         ['Data i godzina rozpoczęcia', datatime.replace("T", "  "), "+/-"],
         ['Nr misji', mission, "+/-"],
         ['Czas trwania', duration, "+/-"],
-        ['Bateria przed wykonaniem', batt, "+/-"]
+        ['Bateria przed wykonaniem lotu', batt, "+/-"]
       ]
     }
   },
@@ -42,7 +42,7 @@ export default function (pilot, datatime, phone, mission, batt, duration, kp, ba
     style: "header3"
   },
   {
-    text: "Dodatkowe informacje o wykonanej misji",
+    text: "2. Dodatkowe informacje o wykonanej misji",
     style: "header3"
   },
   {

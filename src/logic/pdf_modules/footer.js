@@ -4,7 +4,7 @@ export default [
     style: "header3"
   },
   {
-    text: "Informacje końcowe",
+    text: "8. Informacje końcowe",
     style: "header3"
   },
   {

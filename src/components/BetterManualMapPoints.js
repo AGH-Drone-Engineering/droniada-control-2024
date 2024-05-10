@@ -10,6 +10,12 @@ import { storage } from 'logic/fb';
 import { ref, getDownloadURL, uploadBytes } from 'firebase/storage';
 import EXIF from 'exif-js';
 
+function intruderPointTypes() {
+  return Object.keys(icons)
+    .filter((a) => inspectionable.includes(a))
+    .sort((a, b) => mapType(a).localeCompare(mapType(b)))
+}
+
 function toIsoString(date) {
   const pad = function (num) {
     return (num < 10 ? '0' : '') + num;
@@ -35,20 +41,33 @@ export default function ManualMapPoints(props) {
   const [screenDatabase, setScreenDatabase] = useState(`inspection-${flightNo}-points`);
   const [position] = useInitalLocation(screenDatabase);
   const [clickedPos, setClickedPos] = useState({ lat: 0, lng: 0 });
-  const [pointType, setPointType] = useState('generic');
+  const [pointType, setPointType] = useState(intruderPointTypes()[0]);
   const [pointName, setPointName] = useState('');
   const [pointTimeStamp, setPointTimeStamp] = useState(toIsoString(new Date()));
-  const [timeUpdate, setTimeUpdate] = useState(false);
   const [dialogReason, setDialogReason] = useState('');
   const [img, setImg] = useState('');
   const [dialogLoading, setDialogLoading] = useState(false);
   const [pointContent, setPointContent] = useState('');
   const [changedLoc, setChangedLoc] = useState(false);
   const [changedContent, setChangedContent] = useState(false);
+  const [pointNotified, setPointNotified] = useState(true);
+  const [defaultName, setDefaultName] = useState(true);
+  const [present, setPresent] = useState(true);
+
+  useEffect(() => {
+    if (clickedPos.lat === 0 && clickedPos.lng === 0) {
+      setClickedPos(position);
+    }
+  }, [position])
 
   useEffect(() => {
     setScreenDatabase(`inspection-${flightNo}-points`);
   }, [flightNo]);
+
+  useEffect(() => {
+    setTimeout(() => setPointName(''), 15)
+  }, [])
+
 
   useEffect(() => {
     setTimeout(() => {
@@ -78,9 +97,35 @@ export default function ManualMapPoints(props) {
     setPointTimeStamp(toIsoString(date));
   };
 
-  const onCheckedAutoTime = () => {
-    setTimeUpdate(!timeUpdate);
-  };
+  const td = () => {
+    setTimeout(() => {
+      setDefaultName(true);
+    }, 10);
+  }
+
+  useEffect(() => {
+    if (pointType === 'fire') {
+      setPointName('Pożar');
+      td()
+    }
+    else if (pointType === 'intruder') {
+      setPointName('Intruz');
+      td()
+    }
+    else {
+      if (pointName === '' || defaultName) {
+        setPointName(mapType(pointType));
+        td()
+      }
+    }
+    if (pointType !== 'aruco') {
+      setPointContent('');
+    }
+  }, [pointType]);
+
+  useEffect(() => {
+    setDefaultName(false);
+  }, [pointName])
 
   const handleFile = (file) => {
 
@@ -116,7 +161,7 @@ export default function ManualMapPoints(props) {
 
   const onSubmit = () => {
     setDialogLoading(true);
-    const time = timeUpdate ? toIsoString(new Date()) : pointTimeStamp;
+    const time = pointTimeStamp;
 
     addPointToMap(
       screenDatabase,
@@ -128,6 +173,8 @@ export default function ManualMapPoints(props) {
         content: pointContent,
         changedLoc,
         changedContent,
+        notified: pointNotified,
+        present,
       },
       clickedPos,
       time
@@ -161,8 +208,8 @@ export default function ManualMapPoints(props) {
           </MapContainer>
         </div>
         <div className='mannual-controls'>
-          <h2>Dodawanie ręczne punktu</h2>
-          <h3>Inspekcja dzień {flightNo}</h3>
+          <h2 style={{ marginBottom: '0px' }}>Dodawanie ręczne punktu</h2>
+          <h3 style={{ marginBottom: '12px', marginTop: '4px' }}>Inspekcja dzień {flightNo}</h3>
 
           <div className='form-row'>
             <div className='form-group'>
@@ -188,22 +235,11 @@ export default function ManualMapPoints(props) {
             Lat i long zostanie automatycznie pobrany po uploadzie zdjęcia, alternatywnie można
             kliknąć w mapę i wybrać punkt
           </span>
-          <label htmlFor='pointNameInput'>Nazwa punktu:</label>
-          <input
-            id='pointNameInput'
-            type='text'
-            value={pointName}
-            onChange={(e) => setPointName(e.target.value)}
-            required
-          ></input>
-
           <div className='form-row'>
             <div className='form-group'>
               <label htmlFor='pointTypeSelect'>Typ punktu:</label>
               <select id='pointIconSelect' onChange={(e) => setPointType(e.target.value)}>
-                {Object.keys(icons)
-                  .filter((a) => inspectionable.includes(a))
-                  .sort((a, b) => mapType(a).localeCompare(mapType(b)))
+                {intruderPointTypes()
                   .map((a) => (
                     <option value={a} key={a}>
                       {mapType(a)}
@@ -228,11 +264,11 @@ export default function ManualMapPoints(props) {
                     className='form-check-input'
                     type='checkbox'
                     id='changedLoc'
-                    value={changedLoc}
-                    onChange={(e) => setChangedLoc(e.target.value)}
+                    checked={changedLoc}
+                    onChange={(e) => setChangedLoc(e.target.checked)}
                   />
                   <label className='form-check-label' htmlFor='changedLoc'>
-                    Zmiana lokalizacji
+                    Zmiana lokalizacji względem lotu ZERO
                   </label>
                 </div>
                 <div className='form-check'>
@@ -240,16 +276,79 @@ export default function ManualMapPoints(props) {
                     className='form-check-input'
                     type='checkbox'
                     id='changedContent'
-                    value={changedContent}
-                    onChange={(e) => setChangedContent(e.target.value)}
+                    checked={changedContent}
+                    onChange={(e) => setChangedContent(e.target.checked)}
                   />
                   <label className='form-check-label' htmlFor='changedContent'>
-                    Zmiana zawartości
+                    Zmiana zawartości względem lotu ZERO
                   </label>
                 </div>
               </div>
             )}
 
+            {/* For workers */}
+
+            {(pointType === 'worker' || pointType === 'workerNoHS') && (
+              <>
+                <div className='form-group'>
+                  <div className='form-check'>
+                    <input
+                      className='form-check-input'
+                      type='checkbox'
+                      id='changedLoc'
+                      checked={changedLoc}
+                      onChange={(e) => setChangedLoc(e.target.checked)}
+                    />
+                    <label className='form-check-label' htmlFor='changedLoc'>
+                      Zmiana lokalizacji pracownika względem lotu ZERO
+                    </label>
+                  </div>
+                  <div className='form-check'>
+                    <input
+                      className='form-check-input'
+                      type='checkbox'
+                      id='present'
+                      checked={present}
+                      onChange={(e) => setPresent(e.target.checked)}
+                    />
+                    <label className='form-check-label' htmlFor='present'>
+                      Pracownik jest obecny
+                    </label>
+                  </div>
+                  <span className='cheat-info'>Pracownik nieobecny?. To jak go wykryć?. Troche nie wiadomo o co chodzi w regulaminie, TRZYMAJ ZAZNACZONE </span>
+                </div>
+              </>
+            )}
+
+            {/* For emergency */}
+
+            {(pointType === 'fire' || pointType === 'intruder') && (
+              <>
+                <span className='cheat-info'>Podczas sytuacji awaryjnej od razu zgłoś <h3 style={{ color: "red", marginTop: '2px' }}>ALARM</h3></span>
+                <label htmlFor='pointNotifiedCheckbox'>Było powiadomienie Jury ?:</label>
+                <input
+                  id='pointNotifiedCheckbox'
+                  type='checkbox'
+                  checked={pointNotified}
+                  onChange={(e) => setPointNotified(e.target.checked)}
+                ></input>
+              </>
+            )}
+
+
+          </div>
+          <label htmlFor='pointNameInput'>Nazwa punktu:</label>
+          <input
+            id='pointNameInput'
+            type='text'
+            value={pointName}
+            onChange={(e) => setPointName(e.target.value)}
+            placeholder='Nazwa punktu, domyślnie ustawi się pod wybrany typ punktu (zalecane zmienić)'
+            required
+          ></input>
+
+
+          <div className='form-row'>
             <div className='form-group'>
               <label htmlFor='pointTimestampInput'>Data i czas:</label>
               <input
@@ -257,24 +356,28 @@ export default function ManualMapPoints(props) {
                 type='datetime-local'
                 value={pointTimeStamp}
                 onChange={onChangeDateTime}
-                disabled={timeUpdate}
               ></input>
             </div>
-          </div>
-          <label className='checkbox-label'>
-            <input type='checkbox' onChange={onCheckedAutoTime} />
-            Automatyczne ustawienie czasu
-          </label>
 
-          <div className='form-group'>
-            <label htmlFor='imgTextarea'>Obraz (upload):</label>
-            <input type='file' onChange={(e) => handleFile(e.target.files[0])}></input>
+            <div className='form-group'>
+              <label htmlFor='imgTextarea'>Obraz (upload):</label>
+              <input type='file' onChange={(e) => handleFile(e.target.files[0])}></input>
+            </div>
           </div>
+
 
           {!dialogLoading && <button onClick={onSubmit}>Dodaj punkt</button>}
           {dialogLoading && <button disabled>Dodawanie...</button>}
+
+          <div style={{ width: '10px', height: '50px' }}></div>
+
         </div>
+
       </div>
+      <footer>
+        <div>Copyrights for AGH Drone Engineering. Made with ❤️ by <a href="https://www.linkedin.com/in/antoni-wo%C5%BAniak-a20995283/" target="_blank">@atomwoz</a></div>
+        <div style={{ width: '10px', height: '50px' }}></div>
+      </footer>
     </>
   );
 }

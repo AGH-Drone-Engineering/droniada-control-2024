@@ -130,8 +130,8 @@ const aurocoIcon = L.icon({
 
 const workerIcon = L.icon({
   iconUrl: process.env.PUBLIC_URL + '/worker.png',
-  iconSize: [30, 30],
-  iconAnchor: [15, 15],
+  iconSize: [30, 20],
+  iconAnchor: [15, 10],
   popupAnchor: [0, 0],
   inspection: true
 });
@@ -162,9 +162,9 @@ const brokenFence = L.icon({
 
 
 const fire = L.icon({
-  iconUrl: process.env.PUBLIC_URL + '/fire.png',
-  iconSize: [40, 40],
-  iconAnchor: [20, 20],
+  iconUrl: process.env.PUBLIC_URL + '/fire.gif',
+  iconSize: [40, 60],
+  iconAnchor: [20, 60],
   popupAnchor: [0, 0],
   inspection: true
 });
@@ -258,8 +258,8 @@ const nameMap = {
   beige: 'Ceglane',
   green: 'Zielone',
   rover: 'Lądownik',
-  aruco: 'Kod aruco',
 
+  aruco: 'ArUco kod',
   worker: 'Pracownik OK',
   workerNoHS: 'Pracownik ŁAMIE BHP',
   intruder: 'Intruz',
