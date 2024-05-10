@@ -391,6 +391,11 @@ h1 {
   cursor: pointer;
 }
 
+.save-template-btn
+{
+ margin-left: 15px;
+
+}
 
 .nuke-control .raport-btn
 {

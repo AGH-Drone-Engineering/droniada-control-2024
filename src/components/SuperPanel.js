@@ -8,6 +8,8 @@ import HeaderMarker from 'components/headerMarker'
 import useDronePath from 'logic/DronePath'
 import generatePdf from 'logic/generateSuperPDF'
 import DayOfOps from 'components/inspectionDay'
+import saveTemplate from 'logic/saveTemplateInspection'
+import useInspectionTemplate from 'logic/useInspectionTemplate'
 
 function initialTime() {
   const minuteOffset = 32;
@@ -27,9 +29,37 @@ export default function NukeControl() {
   const [flightDuration, setFlightDuration] = useState('')
   const [, dronePoints] = useDronePath()
   const points = useMapPoints(pdfDb)
+  const [templateData] = useInspectionTemplate();
+
   useEffect(() => {
     setPdfDb(`inspection-${flightno}-points`);
   }, [flightno]);
+
+  useEffect(() => {
+    if (templateData.pilot) {
+      setPilot(templateData.pilot)
+    }
+    if (templateData.datetime) {
+      setDatetime(templateData.datetime)
+    }
+    if (templateData.pilotPhone) {
+      setPilotPhone(templateData.pilotPhone)
+    }
+    if (templateData.kp) {
+      setKpIndex(templateData.kp)
+    }
+    if (templateData.batt) {
+      setBatteryBefore(templateData.batt)
+    }
+    if (templateData.battAfter) {
+      setBatteryAfter(templateData.battAfter)
+    }
+    if (templateData.duration) {
+      setFlightDuration(templateData.duration)
+    }
+    console.log(templateData)
+
+  }, [templateData])
 
   return (
 
@@ -78,8 +108,15 @@ export default function NukeControl() {
           className="super-raport-btn"
           onClick={() => generatePdf(points, { pilot, datetime, pilotPhone, kp: kpIndex, batt: batteryBefore, battAfter: batteryAfter, duration: flightDuration }, flightno)}
         >
-          GENERUJ
+          GENERUJ PDF
         </button>
+        <button
+          className="save-template-btn"
+          onClick={() => saveTemplate({ pilot, datetime, pilotPhone, kp: kpIndex, batt: batteryBefore, battAfter: batteryAfter, duration: flightDuration }).then(console.log("Dodano"))}
+        >
+          Zapisz formularz jako AUTOMATYCZNIE UZUPEŁNIANIE
+        </button>
+        <span className='cheat-info'> -&gt; Automatycznie uzupełni u wszystkich edytujących</span>
 
         <br />
         <h2>Manualne dodawanie punktów</h2>
