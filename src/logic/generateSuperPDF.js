@@ -8,6 +8,9 @@ import arucos from './pdf_modules/arucos';
 import supersituation from './pdf_modules/supersituation';
 import staticchanges from './pdf_modules/staticchanges';
 import workers from './pdf_modules/workers';
+import bigphoto from './pdf_modules/bigphoto';
+import { storage } from './fb';
+import { ref, getDownloadURL } from 'firebase/storage';
 
 let images = { demo: `data:image/jpeg;base64,/9j/${demoImg}` };
 
@@ -65,7 +68,18 @@ function fbTimeToTime(point) {
   return '' + timeString;
 }
 
-export default function generatePdf(points, headerInfo, day) {
+export default async function generatePdf(points, headerInfo, day) {
+
+  let url = ""
+  try {
+    let url = await getDownloadURL(ref(storage, `screenshots/inspection-${day}-points.png`));
+    images.bigphoto = url;
+  }
+  catch (e) {
+    images.bigphoto = `data:image/jpeg;base64,/9j/${demoImg}`;
+  }
+
+
   const docDefinition = {
     content: [
       {
@@ -93,6 +107,11 @@ export default function generatePdf(points, headerInfo, day) {
         style: 'header3'
       },
       arucos(points, addImage),
+      {
+        text: ' ',
+        style: 'header3'
+      },
+      bigphoto,
       {
         text: ' ',
         style: 'header3'
