@@ -4,6 +4,7 @@ import { auth } from 'logic/fb';
 import { useUserIsAdmin } from 'logic/auth';
 import NukeControl from 'modules/pipeline/components/NukeControl';
 import SuperPanel from 'components/SuperPanel';
+import BigMapPanel from 'components/BigMap';
 import { TabList, Tab, TabPanel, Tabs } from 'react-tabs';
 
 function CurrentUser() {
@@ -110,6 +111,7 @@ export default function AdminScreen() {
           <TabList>
             <Tab>Generic view</Tab>
             <Tab>Personalized experience for Inspekcja</Tab>
+            <Tab>Duża MAPA do zrobienia mapy do raportu</Tab>
           </TabList>
           <TabPanel>
             <NukeControl />
@@ -117,6 +119,9 @@ export default function AdminScreen() {
           </TabPanel>
           <TabPanel>
             <SuperPanel />
+          </TabPanel>
+          <TabPanel>
+            <BigMapPanel />
           </TabPanel>
         </Tabs>
       }

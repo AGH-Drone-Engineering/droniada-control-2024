@@ -427,6 +427,39 @@ h1 {
   background-color: #771111;
 }
 
+.fullscreen-mapper
+{
+  width: 100%;
+  height: 750px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.fullscreen-mapper .map
+{
+  width: 70%;
+  height: 750px;
+}
+
+.fullscreen-mapper button
+{
+ width: 200px;
+  height: 30px;
+  border: 0;
+  background-color: #007bff;
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+  margin-bottom: 20px;
+}
+
+.fullscreen-mapper .mapper-info
+{
+ padding: 50px;
+ width: 30%;
+}
+
 .popup {
   position: fixed;
   top: 0;
