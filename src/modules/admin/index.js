@@ -6,6 +6,7 @@ import NukeControl from 'modules/pipeline/components/NukeControl';
 import SuperPanel from 'components/SuperPanel';
 import BigMapPanel from 'components/BigMap';
 import { TabList, Tab, TabPanel, Tabs } from 'react-tabs';
+import BigButtonForMarsjańskie from 'components/BigButtonForMarsjańskie';
 
 function CurrentUser() {
   const [user, userLoading, userError] = useAuthState(auth);
@@ -111,7 +112,8 @@ export default function AdminScreen() {
           <TabList>
             <Tab>Generic view</Tab>
             <Tab>Personalized experience for Inspekcja</Tab>
-            <Tab>Duża MAPA do zrobienia mapy do raportu</Tab>
+            <Tab>Duża MAPA do zrobienia mapy do raportu Inspekcja</Tab>
+            <Tab>Personalized experience for Pola Marsjańskie</Tab>
           </TabList>
           <TabPanel>
             <NukeControl />
@@ -122,6 +124,9 @@ export default function AdminScreen() {
           </TabPanel>
           <TabPanel>
             <BigMapPanel />
+          </TabPanel>
+          <TabPanel>
+            <BigButtonForMarsjańskie />
           </TabPanel>
         </Tabs>
       }
