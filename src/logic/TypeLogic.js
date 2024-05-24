@@ -105,6 +105,7 @@ const violetIcon = L.icon({
   popupAnchor: [0, 0]
 });
 
+
 const greenIcon = L.icon({
   iconUrl: process.env.PUBLIC_URL + '/green.png',
   iconSize: [20, 20],
@@ -253,10 +254,12 @@ const nameMap = {
   generic: 'Inne',
   helmetOff: 'Zdjęty kask',
   barrel: 'Beczka',
-  violet: 'Fioletowe',
+  purple: 'Fioletowe',
   blue: 'Niebieskie',
   beige: 'Ceglane',
-  green: 'Zielone',
+  red: 'Ceglane',
+  yellow: 'Żółte, ZŁA PRÓBKA',
+  green: 'Żółta/Zielona, ZŁA PRÓBKA',
   rover: 'Lądownik',
 
   aruco: 'ArUco kod',
@@ -290,10 +293,11 @@ const icons = {
   bag: bagIcon,
   bomb: bagIcon,
   intruder: intruderIcon,
-  beige: beigeIcon,
+  red: beigeIcon,
   white: beigeIcon,
   blue: blueIcon,
-  violet: violetIcon,
+  yellow: greenIcon,
+  purple: violetIcon,
   rover: roverIcon,
   green: greenIcon,
   aruco: aurocoIcon,
